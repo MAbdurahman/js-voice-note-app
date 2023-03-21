@@ -52,7 +52,7 @@
   --fw-font-weight-600: 600;
   --fw-font-weight-700: 700;
   --ls-letter-spacing: 1px;
-  --br-border-radius: 5px;
+  --br-border-radius: 3px;
 }
 
 html {
@@ -133,6 +133,10 @@ input, textarea {
   font-family: var(--ff-font-body);
 }
 
+ul {
+  list-style: none;
+}
+
 *::placeholder,
 input::placeholder {
   color: var(--clr-augmented-200);
@@ -178,6 +182,7 @@ div.wrapper {
   text-transform: capitalize;
   text-align: center;
   color: var(--clr-augmented-400);
+  color: var(--clr-primary-800);
 }
 
 /*=============================================
@@ -191,8 +196,14 @@ label.input-label {
 .input-textarea textarea {
   max-width: 100%;
   width: 100%;
+  height: 152px;
+  max-height: 480px;
+  min-height: 152px;
+  padding: 0.25em 0.5em;
+  background-color: var(--clr-neutral-100);
   resize: vertical;
   border: 1px solid var(--clr-primary-800);
+  border-radius: var(--br-border-radius);
 }
 
 /* Modern Browsers */
