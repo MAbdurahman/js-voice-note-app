@@ -201,6 +201,7 @@ label.input-label {
   max-height: 480px;
   min-height: 152px;
   padding: .25em .50em;
+  margin-bottom: 1em;
   background-color: var(--clr-neutral-100);
   resize: vertical;
   border: 1px solid var(--clr-primary-800);
@@ -249,3 +250,99 @@ textarea::placeholder {
   color: #9c9c9c;
 
 }
+
+
+/*=============================================
+          button-wrapper
+================================================*/
+div.button-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+
+
+
+/*=============================================
+        button
+================================================*/
+
+button {
+  position: relative;
+  width: 33.333%;
+  padding: 8px 16px;
+  margin: 10px;
+  text-transform: uppercase;
+  border: 1px solid black;
+  border-radius: var(--br-border-radius);
+  background: steelblue;
+  -moz-transition: all 300ms;
+  -o-transition: all 300ms;
+  -webkit-transition: all 300ms;
+  transition: all 300ms;
+  z-index: 1;
+  color: white;
+  font-weight: 700;
+  overflow: hidden;
+  cursor: pointer;
+}
+button:hover {
+  border-color: steelblue;
+  color: steelblue;
+}
+button:after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  -moz-transition: all 300ms;
+  -o-transition: all 300ms;
+  -webkit-transition: all 300ms;
+  transition: all 300ms;
+  background: white;
+}
+
+.btn-fill::after {
+  height: 100%;
+  width: 100%;
+  -moz-transform: scale(0);
+  -ms-transform: scale(0);
+  -webkit-transform: scale(0);
+  transform: scale(0);
+}
+
+.btn-fill:hover::after {
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+
+button.btn-fill:not(last-child) {
+  margin-right: .5em;
+}
+
+
+
+/*=============================================
+
+================================================*/
+
+
+
+
+/*=============================================
+
+================================================*/
+
+
+
+
+
+/*=============================================
+
+================================================*/
