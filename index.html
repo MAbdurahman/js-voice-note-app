@@ -12,14 +12,38 @@
     <title>js-voice-note-app</title>
 </head>
 <body>
+<div class="wrapper">
+    <div class="heading">
+        <h3>Voice-Notes-App</h3>
+    </div>
+    <div class="app">
+        <div class="input-textarea">
+            <label class="input-label" for="note-textarea">New Note</label>
+            <textarea id="note-textarea" class="note-textarea" spellcheck="false" placeholder="Create a new note by typing or using voice recognition." cols="25" rows="5"></textarea>
+        </div>
+        <button id="start-record-btn" title="Start Recording">Start Recognition</button>
+        <button id="pause-record-btn" title="Pause Recording">Pause Recognition</button>
+        <button id="save-note-btn" title="Save Note">Save Note</button>
+        <!-- <p id="recording-instructions">Press the <strong>Start Recognition</strong> button and allow access.</p> -->
 
+        <h3>My Notes</h3>
+        <ul id="notes">
+            <li>
+                <p class="no-notes">You don't have any notes.</p>
+            </li>
+        </ul>
+
+    </div>
+</div>
 
 <!-- jquery scripts-->
 <script src="./js/jquery-3.6.1.min.js"></script>
+<!--ion icons-->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <!-- sweetalert scripts-->
 <script src="./js/sweetalert.min.js"></script>
 <!-- main scripts-->
 <script src="./js/main.js"></script>
-
 </body>
 </html>
