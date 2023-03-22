@@ -14,27 +14,27 @@
 <body>
 <div class="wrapper">
     <div class="heading">
-        <h3>Voice-Notes-App</h3>
+        <h1 class="heading-title">Voice-Notes-App</h1>
     </div>
     <div class="app">
-        <div class="input-textarea">
-            <label class="input-label" for="note-textarea">New Note</label>
-            <textarea id="note-textarea" class="note-textarea" spellcheck="false" placeholder="Create a new note by speaking or typing." cols="25" rows="5"></textarea>
-        </div>
-        <div class="button-wrapper">
-            <button class="btn-fill" id="start-record-btn" >Start</button>
+        <section class="new-notes-wrapper">
+            <h2 class="new-notes-title">New Notes</h2>
+            <textarea id="note-textarea" class="new-notes-textarea" spellcheck="false"
+                      placeholder="Create a new note by speaking or typing." cols="25" rows="5"></textarea>
+        </section>
+        <section class="button-wrapper">
+            <button class="btn-fill" id="start-record-btn">Start</button>
             <button class="btn-fill" id="stop-record-btn">Stop</button>
             <button class="btn-fill" id="save-record-btn">Save</button>
-        </div>
-        <div class="saved-notes-wrapper">
-            <h4>Saved Notes</h4>
-            <ul id="notes">
-                <li>
+        </section>
+        <section class="saved-notes-wrapper">
+            <h2 class="saved-notes-title">Saved Notes</h2>
+            <ul id="notes" class="saved-notes-items">
+                <li class="saved-notes-item">
                     <p class="no-notes">You do not have any saved notes.</p>
                 </li>
             </ul>
-        </div>
-
+        </section>
     </div>
 </div>
 

@@ -90,7 +90,7 @@ body {
   letter-spacing: var(--ls-letter-spacing);
   color: var(--clr-augmented-400);
   background-image: radial-gradient(circle, var(--clr-neutral-200) 28%, var(--clr-neutral-200) 100%);
-  transition: filter 0.5s;
+
 }
 
 @media only screen and (max-width: 540px) {
@@ -148,7 +148,6 @@ ion-icon {
   font-size: 4rem;
 }
 
-
 /*=============================================
           wrapper
 ================================================*/
@@ -184,17 +183,41 @@ div.wrapper {
   color: var(--clr-primary-800);
 }
 
-
+.heading-title {
+    font-size: 1.9rem;
+}
 /*=============================================
-          note-textarea
+          new-notes-textarea
 ================================================*/
-
-label.input-label {
-  color: var(--clr-primary-800);
-  font-weight: var(--fw-font-weight-700);
+section.new-notes-wrapper {
+  position: relative;
+  margin-bottom: .5em;
+  padding: 16px;
+  background-color: var(--clr-neutral-100);
+  border: 1px solid var(--clr-primary-800);
+  border-radius: var(--br-border-radius);
 }
 
-.input-textarea textarea {
+.new-notes-title {
+  position: absolute;
+  top: 0;
+  margin: -9px 0 0;
+  padding: 0 3px;
+  font-size: 18px;
+  line-height: 1;
+  background-color: var(--clr-neutral-100);
+  background-image: radial-gradient(circle, var(--clr-neutral-200) 28%, var(--clr-neutral-200) 100%);
+}
+
+.new-notes-textarea {
+  max-width: 100%;
+  width: 100%;
+  border: hidden;
+  resize: none;
+  background-color: transparent;
+}
+
+.new-notes-textarea textarea {
   max-width: 100%;
   width: 100%;
   height: 152px;
@@ -203,9 +226,9 @@ label.input-label {
   padding: .25em .50em;
   margin-bottom: 1em;
   background-color: var(--clr-neutral-100);
+  background-color: transparent;
   resize: vertical;
-  border: 1px solid var(--clr-primary-800);
-  border-radius: var(--br-border-radius);
+  outline: none;
 
 }
 
@@ -217,48 +240,49 @@ textarea::placeholder {
 }
 
 /* WebKit, Edge */
-.input-textarea textarea::-webkit-input-placeholder {
+.new-notes-textarea textarea::-webkit-input-placeholder {
   font-size: 1rem;
   color: #9c9c9c;
 
 }
 
 /* Firefox 4-18 */
-.input-textarea textarea::-moz-placeholder {
+.new-notes-textarea textarea::-moz-placeholder {
   font-size: 1rem;
   color: #9c9c9c;
 
 }
 
 /* Firefox 19+ */
-.input-textarea textarea::-moz-placeholder {
+.new-notes-textarea textarea::-moz-placeholder {
   font-size: 1rem;
   color: #9c9c9c;
 
 }
 
 /* IE 10-11 */
-.input-textarea textarea::-ms-input-placeholder {
+.new-notes-textarea textarea::-ms-input-placeholder {
   font-size: 1rem;
   color: #9c9c9c;
 
 }
 
 /* Edge */
-.input-textarea textarea::-ms-input-placeholder {
+.new-notes-textarea textarea::-ms-input-placeholder {
   font-size: 1rem;
   color: #9c9c9c;
 
 }
 
-
 /*=============================================
           button-wrapper
 ================================================*/
-div.button-wrapper {
+section.button-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-bottom: 1.5em;
+  padding: 16px;
 }
 
 
@@ -336,13 +360,34 @@ button.btn-fill:not(last-child) {
 
 
 /*=============================================
-
+        saved-notes-wrapper
 ================================================*/
+section.saved-notes-wrapper {
+  position: relative;
+  margin-bottom: 1em;
+  /*padding: 1rem;*/
+  /*padding: .25em .50em;*/
+  padding: 16px;
+  background-color: var(--clr-neutral-100);
+  border: 1px solid var(--clr-primary-800);
+  border-radius: var(--br-border-radius);
+}
 
+.saved-notes-title {
+  position: absolute;
+  top: 0;
+  margin: -9px 0 0;
+  padding: 0 3px;
+  font-size: 18px;
+  line-height: 1;
+  background-color: var(--clr-neutral-100);
+  background-image: radial-gradient(circle, var(--clr-neutral-200) 28%, var(--clr-neutral-200) 100%);
+}
 
-
-
-
+.no-notes {
+  font-size: 1rem;
+  color: #9c9c9c;
+}
 /*=============================================
 
 ================================================*/
