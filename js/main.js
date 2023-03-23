@@ -132,7 +132,6 @@ $(function () {
     
     if (is_recording === false) {
       if (note_textarea.innerHTML.length > 0) {
-        console.log(note_textarea.innerHTML.length);
         note_textarea.innerHTML = '';
       }
       recognition.start();
@@ -148,7 +147,7 @@ $(function () {
   });
 
   stop_button.addEventListener('click', function(event) {
-    console.log(event.target, 'clicked');
+    
     if (is_recording === false) {
       swal ('Speech Recognition Information', 'Speech Recognition is not recording', 'info');
       
