@@ -422,6 +422,7 @@ button.swal-button.swal-button--confirm:hover {
 ================================================*/
 section.saved-notes-wrapper {
   position: relative;
+
   margin-bottom: 1em;
   /*padding: 1rem;*/
   /*padding: .25em .50em;*/
@@ -429,6 +430,7 @@ section.saved-notes-wrapper {
   background-color: var(--clr-neutral-100);
   border: 1px solid var(--clr-primary-800);
   border-radius: var(--br-border-radius);
+
 }
 
 .saved-notes-title {
@@ -446,6 +448,68 @@ section.saved-notes-wrapper {
   font-size: 1rem;
   color: #9c9c9c;
 }
-/*=============================================
 
+/*=============================================
+          saved-note-list
 ================================================*/
+
+.saved-notes-items {
+  max-height: 200px;
+  overflow-y: auto;
+  display: grid;
+  grid-template-rows: 33.33% 66.66%;
+  grid-row-gap: 2.25rem;
+}
+
+.saved-notes-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 2rem;
+}
+
+.saved-notes-date-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.saved-notes-date-buttons {
+  width: 15%;
+  display: flex;
+  justify-content: space-evenly;
+}
+.saved-notes-date {
+  font-weight: var(--fw-font-weight-600);
+  color: var(--clr-primary-800);
+}
+.saved-notes-date-button {
+  font-size: 1rem;
+}
+
+.note-read {
+  color: #4682b4;
+  transition: color 0.333s;
+}
+.note-read:hover {
+  color: var(--clr-primary-400);
+}
+
+.note-delete {
+  color: #8f0e0e;
+  transition: color 0.333s;
+}
+
+.note-delete:hover {
+  color: #ca2f2f;
+}
+
+.saved-notes-content-wrapper {
+  width: 100%;
+}
+
+.saved-notes-line {
+  width: 50%;
+  margin: 0 auto;
+}
+
