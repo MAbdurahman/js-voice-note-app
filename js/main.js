@@ -163,7 +163,7 @@ $(function () {
           swal('Successfully Delete', 'Your note item has been deleted!', { icon: 'success' });
           
         } else {
-          swal('You note item is safe!', { icon: 'info' });
+          swal('Note Item Saved', 'Your note item is safe!', { icon: 'info' });
           return;
         }
       });
@@ -288,35 +288,37 @@ $(function () {
         swal('Invalid NoteItem', 'Textarea cannot be empty!', 'error');
         
       } else {
-        note_content = note_textarea.innerHTML.trim();
+        
         const date_time = new Date();
         let id = date_time.getTime().toString();
         let date = date_time.toString().slice(0, -29);
+        
+        note_content = note_textarea.innerHTML.trim();
         
         createNoteItem(id, date, note_content);
         addToLocalStorage(id, date, note_content);
         setToDefaultSettings();
         swal('Success', 'Note Successfully Saved', 'success');
-        /*displaySavedNoteItems();*/
         
       }
       
     } else if (is_recording === true) {
       recognition.stop();
       is_recording = false;
+  
+      note_content = note_textarea.innerHTML.trim();
+      
+      const date_time = new Date();
+      let id = date_time.getTime().toString();
+      let date = date_time.toString().slice(0, -29);
+  
+      createNoteItem(id, date, note_content);
+      addToLocalStorage(id, date, note_content);
+      setToDefaultSettings();
+      
+      swal('Speech Recognition', 'Speech Recognition safely saved your note.', 'info');
       
     }
-    note_content = note_textarea.innerHTML.trim();
-    
-    const date_time = new Date();
-    let id = date_time.getTime().toString();
-    let date = date_time.toString().slice(0, -29);
-    
-    createNoteItem(id, date, note_content);
-    addToLocalStorage(id, date, note_content);
-    setToDefaultSettings();
-    swal('Speech Recognition', 'Speech Recognition safely for you save a note.', 'info');
-    /*displaySavedNoteItems();*/
     
   });
   

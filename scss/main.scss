@@ -51,6 +51,21 @@
   --clr-augmented-300: hsla(210, 11%, 36%, 100%);
   --clr-augmented-400: hsla(210, 25%, 19%, 100%);
 
+  --clr-semantic-s-400: hsla(100, 72%, 23%, 100%);
+  --clr-semantic-s-300: hsla(100, 85%, 26%, 100%);
+  --clr-semantic-s-200: hsla(100, 82%, 31%, 100%);
+  --clr-semantic-s-100: hsla(100, 96%, 33%, 100%);
+
+  --clr-semantic-w-400: hsla(48, 72%, 42%, 100%);
+  --clr-semantic-w-300: hsla(48, 85%, 43%, 100%);
+  --clr-semantic-w-200: hsla(48, 82%, 48%, 100%);
+  --clr-semantic-w-100: hsla(48, 96%, 49%, 100%);
+
+  --clr-semantic-a-400: hsla(0, 72%, 23%, 100%);
+  --clr-semantic-a-300: hsla(0, 85%, 26%, 100%);
+  --clr-semantic-a-200: hsla(0, 82%, 31%, 100%);
+  --clr-semantic-a-100: hsla(0, 96%, 38%, 100%);
+
   --ff-font-body: 'Nunito', sans-serif;;
 
   --fw-font-weight-400: 400;
@@ -157,8 +172,6 @@ ion-icon {
   left: 0;
   right: 0;
   bottom: 0;
-/*  background: #262626;
-  background: var(--clr-augmented-400);*/
   background-image: radial-gradient(circle, var(--clr-neutral-200) 28%, var(--clr-neutral-200) 100%);
   display: -webkit-box;
   display: flex;
@@ -394,11 +407,6 @@ button.swal-button.swal-button--confirm:hover {
   background: white;
 }
 
-/*.swal-button:hover,
-.swal-button--confirm:hover {
-  color: steelblue;
-  background: var(--clr-neutral-100);
-}*/
 .swal-button__loader div{
   background: steelblue;
   color: var(--clr-neutral-100);
@@ -458,14 +466,14 @@ section.saved-notes-wrapper {
   overflow-y: auto;
   display: grid;
   grid-template-rows: 33.33% 66.66%;
-  grid-row-gap: 2.25rem;
+  row-gap: 2.25rem;
 }
 
 .saved-notes-item {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin-bottom: 1em;
+  /*margin-bottom: 1em;*/
 }
 
 .saved-notes-date-wrapper {
@@ -475,7 +483,7 @@ section.saved-notes-wrapper {
 }
 
 .saved-notes-date-buttons {
-  width: 15%;
+  width: 20%;
   display: flex;
   justify-content: space-evenly;
 }
@@ -489,19 +497,33 @@ section.saved-notes-wrapper {
 
 .note-read {
   color: #4682b4;
+  color: var(--clr-semantic-s-300);
   transition: color 0.333s;
 }
 .note-read:hover {
   color: var(--clr-primary-400);
+  color: var(--clr-semantic-s-100);
 }
 
 .note-delete {
   color: #8f0e0e;
+  color: var(--clr-semantic-a-300);
   transition: color 0.333s;
 }
 
 .note-delete:hover {
   color: #ca2f2f;
+  color: var(--clr-semantic-a-100);
+}
+.note-edit {
+  color: #4682b4;
+  color: var(--clr-semantic-w-300);
+  transition: color 0.333s;
+}
+
+.note-edit:hover {
+  color: #ca2f2f;
+  color: var(--clr-semantic-w-100);
 }
 
 .saved-notes-content-wrapper {
