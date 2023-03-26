@@ -40,10 +40,6 @@ $(function () {
   
   localSavedNotesList = getInitialNoteList();
   
-  /*let notes = localStorage.length;
-  console.log(notes);
-  renderNotes(notes);*/
-  
   /*=============================================
         SpeechRecognition - recognition
 ================================================*/
@@ -98,83 +94,12 @@ $(function () {
       swal('Terminated', 'No speech detected. Try again!', 'error');
       return;
     }
-    ;
     
   }; //end of onerror function
   
   /*=============================================
           functions
 ================================================*/
-  
-  function deleteNoteItem (id) {
-    console.log('deleteNote');
-    
-  }; //end of deleteNote function
-  
-  function getAllNotes () {
-    /*let notes = [];
-    let key;
-    for (let i = 0; i < notes.length; i++) {
-      key = localStorage.key(i);
-      if (key.substring(0, 5) === 'note-') {
-        notes.push({
-          date: key.replace('note-', ''),
-          content: localStorage.getItem(localStorage.key(i))
-        });
-      }
-    }
-    return notes;*/
-    
-  }; //end of getAllNotes function
-  
-  function readOutLoudNote (message) {
-    console.log('readOutLoudNote');
-    
-  }; //end of readOutLoudNote function
-  
-  function renderNotes (notes) {
-    console.log('renderNotes called');
-/*    console.log(notes);
-    console.log(notes.length);
-    let html = '';
-    if (notes.length) {
-      notes.forEach(function (note) {
-        html += `<li class="note">
-                    <p class="note-heading">
-                        <span class="note-date">${note.date}</span>
-                        <section class="note-buttons-container">
-                            <a href="#" class="note-read">
-                                <i class='fal fa-book-reader fa-8x' style='color:#4682b4'></i>
-                            </a>
-                            <a href="#" class="note-delete">
-                                <i class='fal fa-trash-alt fa-9x' style='color:#4682b4'></i>
-                            </a>
-                        </section>
-                    </p>
-                    <section class="note-content-container">
-                        <p class="note-content">${note.content}</p>
-                    </section>
-                </li>`;
-        
-      });
-    } else {
-      html = `<li class="saved-notes-item">
-                <!--<p class="no-notes">You do not have any saved notes.</p>-->
-              </li>`;
-    }
-    $('#notes-list').append(html);
-    */
-    
-  }; //end of renderNotes function
-  
-  function saveNote (id, date, content) {
-/*    console.log('saveNote');
-    console.log('saveNote - ', content);
-    localStorage.setItem('note-' + date, content);*/
-    
-  }; //end of saveNote function
-  
-  
   
   /**
    * @description -
@@ -214,8 +139,36 @@ $(function () {
     clone.querySelector('.saved-notes-content').textContent = content;
     
     notes_list.appendChild(clone);
-  
+    
   }; //end of createNoteItem function
+  
+  function deleteNoteItem (e) {
+    console.log('deleteNoteItem');
+    if (e.target.classList.contains('fa-trash-alt')) {
+      swal({
+        title: 'Are you sure?',
+        text: 'Once deleted, impossible to recover!',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true
+      }).then((willDelete) => {
+        if (willDelete) {
+          const noteItem = e.target.parentElement.parentElement.parentElement.parentElement;
+          const id = noteItem.dataset.id;
+          
+          notes_list.removeChild(noteItem);
+          removeFromLocalStorage(id);
+          setToDefaultSettings();
+          
+          swal('Successfully Delete', 'Your note item has been deleted!', { icon: 'success' });
+          
+        } else {
+          swal('You note item is safe!', { icon: 'info' });
+          return;
+        }
+      });
+    }
+  }; //end of deleteNote function
   
   /**
    * @description -
@@ -223,12 +176,9 @@ $(function () {
   function displaySavedNoteItems () {
     localNoteListArr = getLocalStorage();
     if (localNoteListArr.length > 0) {
-/*      localNoteListArr.forEach(function () {
+      localNoteListArr.forEach(function (noteItem) {
         createNoteItem(noteItem.id, noteItem.date, noteItem.content);
-      });*/
-      for (noteItem in localNoteListArr) {
-        createNoteItem(noteItem.id, noteItem.date, noteItem.content);
-      }
+      });
     }
   }; //end of displayNoteItems functions
   
@@ -260,13 +210,18 @@ $(function () {
     
   }; //end of getLocalStorage function
   
+  function readOutLoudNote (message) {
+    console.log('readOutLoudNote');
+    
+  }; //end of readOutLoudNote function
+  
   /**
    * @description -
    * @param id
    */
   function removeFromLocalStorage (id) {
     let localNoteListArr = getLocalStorage();
-    localNoteListArr = localNoteListArr.filter(function (note) {
+    localNoteListArr = localNoteListArr.filter(function (noteItem) {
       if (noteItem.id !== id) {
         return noteItem;
       }
@@ -276,34 +231,13 @@ $(function () {
   }; //end of removeFromLocalStorage function
   
   function saveNoteItem () {
-    if (is_recording === false) {
-      if (note_textarea.innerHTML.length <= 0) {
-        swal('Invalid NoteItem', 'Textarea cannot be empty!', 'error');
-        
-      } else {
-        note_content = note_textarea.innerHTML.trim();
-        
-        const date_time = new Date();
-        let id = date_time.getTime().toString();
-        let date = date_time.toString().slice(0, -29);
-        
   
-        console.log(date);
-        console.log(note_content);
-        
-        createNoteItem(id, date, note_content);
-        addToLocalStorage(id, date, note_content);
-        setToDefaultSettings();
-        swal('Success', 'Note Successfully Saved', 'success');
-        displaySavedNoteItems();
-      }
-    }
   }; //end of saveNoteItem function
   
   /**
    * @description -
    */
-  function setToDefaultSettings() {
+  function setToDefaultSettings () {
     setTimeout(() => {
       note_textarea.innerHTML = '';
       note_content = '';
@@ -312,7 +246,7 @@ $(function () {
     }, 250);
     
   }; //end of setToDefaultSettings function
-
+  
   /*=============================================
         addEventListeners
 ================================================*/
@@ -348,38 +282,48 @@ $(function () {
     
   });
   
-/*  save_button.addEventListener('click', function (event) {
-    console.log(event.target, 'clicked');
+  save_button.addEventListener('click', function (event) {
     if (is_recording === false) {
       if (note_textarea.innerHTML.length <= 0) {
-        swal('Invalid Note', 'Textarea cannot be empty', 'error');
+        swal('Invalid NoteItem', 'Textarea cannot be empty!', 'error');
         
       } else {
-        /!**
-         * Save the textarea content to LocalStorage - the key is the dateTime with seconds,
-         * and the value is the text content of the textarea
-         *!/
-        note_content = note_textarea.innerHTML;
+        note_content = note_textarea.innerHTML.trim();
+        const date_time = new Date();
+        let id = date_time.getTime().toString();
+        let date = date_time.toString().slice(0, -29);
         
-        /!*saveNote(new Date().getTime().toString(), note_content);*!/
-        /!*saveNote(new Date().toString().slice(0, -29), note_content);*!/
-        /!*saveNote(new Date().toString().slice(0, -33), note_content);*!/
-        
-        
-        // render the notes, reset the variables, and update the user interface
-        renderNotes(getAllNotes());
-        note_content = '';
-        note_textarea.innerHTML = '';
+        createNoteItem(id, date, note_content);
+        addToLocalStorage(id, date, note_content);
+        setToDefaultSettings();
         swal('Success', 'Note Successfully Saved', 'success');
+        /*displaySavedNoteItems();*/
         
       }
+      
+    } else if (is_recording === true) {
+      recognition.stop();
+      is_recording = false;
+      
     }
-  });*/
-  
-  save_button.addEventListener('click', saveNoteItem);
+    note_content = note_textarea.innerHTML.trim();
+    
+    const date_time = new Date();
+    let id = date_time.getTime().toString();
+    let date = date_time.toString().slice(0, -29);
+    
+    createNoteItem(id, date, note_content);
+    addToLocalStorage(id, date, note_content);
+    setToDefaultSettings();
+    swal('Speech Recognition', 'Speech Recognition safely for you save a note.', 'info');
+    /*displaySavedNoteItems();*/
+    
+  });
   
   note_textarea.addEventListener('input', function (event) {
-    console.log(this.value, 'input');
+    console.log(this.value);
+    note_textarea.innerText += this.value;
+    
   });
   
   notes_list.addEventListener('click', function (event) {
@@ -388,7 +332,5 @@ $(function () {
   });
   
   displaySavedNoteItems();
-  console.log(displaySavedNoteItems());
-  
 });
 
