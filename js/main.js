@@ -230,10 +230,6 @@ $(function () {
     
   }; //end of removeFromLocalStorage function
   
-  function saveNoteItem () {
-  
-  }; //end of saveNoteItem function
-  
   /**
    * @description -
    */
@@ -251,6 +247,7 @@ $(function () {
         addEventListeners
 ================================================*/
   window.addEventListener('DOMContentLoaded', getInitialNoteList);
+  
   start_button.addEventListener('click', function (event) {
     
     if (is_recording === false) {
@@ -285,7 +282,7 @@ $(function () {
   save_button.addEventListener('click', function (event) {
     if (is_recording === false) {
       if (note_textarea.innerHTML.length <= 0) {
-        swal('Invalid NoteItem', 'Textarea cannot be empty!', 'error');
+        swal('Invalid Note Item', 'Textarea cannot be empty!', 'error');
         
       } else {
         
@@ -303,23 +300,26 @@ $(function () {
       }
       
     } else if (is_recording === true) {
-      recognition.stop();
-      is_recording = false;
+      if (note_textarea.innerHTML <= 0) {
+        swal('Invalid Note Item', 'Textarea cannot be empty!', 'error');
+        
+      } else  {
+        recognition.stop();
+        is_recording = false;
   
-      note_content = note_textarea.innerHTML.trim();
-      
-      const date_time = new Date();
-      let id = date_time.getTime().toString();
-      let date = date_time.toString().slice(0, -29);
+        note_content = note_textarea.innerHTML.trim();
   
-      createNoteItem(id, date, note_content);
-      addToLocalStorage(id, date, note_content);
-      setToDefaultSettings();
-      
-      swal('Speech Recognition', 'Speech Recognition safely saved your note.', 'info');
-      
+        const date_time = new Date();
+        let id = date_time.getTime().toString();
+        let date = date_time.toString().slice(0, -29);
+  
+        createNoteItem(id, date, note_content);
+        addToLocalStorage(id, date, note_content);
+        setToDefaultSettings();
+  
+        swal('Speech Recognition', 'Speech Recognition safely saved your note.', 'info');
+      }
     }
-    
   });
   
   note_textarea.addEventListener('input', function (event) {
