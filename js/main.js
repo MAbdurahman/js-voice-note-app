@@ -73,6 +73,7 @@ $(function () {
       note_content += transcript;
       note_textarea.innerHTML = ' ' + note_content;
       note_content = '';
+    
     }
     
   }; //end of onresult function
@@ -323,8 +324,9 @@ $(function () {
   });
   
   note_textarea.addEventListener('input', function (event) {
-    console.log(this.value);
-    note_textarea.innerText += this.value;
+    /*console.log(this.value);*/
+    note_textarea += this.value;
+    console.log(note_textarea);
     
   });
   
