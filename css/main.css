@@ -454,6 +454,7 @@ section.saved-notes-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  margin-bottom: -1em;
   /*margin-bottom: 1em;*/
 }
 
@@ -480,13 +481,13 @@ section.saved-notes-wrapper {
 
 .note-read {
   color: #4682b4;
-  color: var(--clr-semantic-s-300);
+  /*color: var(--clr-semantic-s-300);*/
   transition: color 0.333s;
 }
 
 .note-read:hover {
   color: var(--clr-primary-400);
-  color: var(--clr-semantic-s-100);
+  /*color: var(--clr-semantic-s-100);*/
 }
 
 .note-delete {

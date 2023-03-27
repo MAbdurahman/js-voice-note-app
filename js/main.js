@@ -16,8 +16,8 @@ $(function () {
   try {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     
-  } catch (e) {
-    console.error(e);
+  } catch (event) {
+    console.error(event);
     swal('No Browser Support', 'Try again in a browser with WebSpeech Recognition', 'error');
     $('.app').hide();
     return;
@@ -25,15 +25,22 @@ $(function () {
   }
   
   //**************** variables ****************//
-  let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = new SpeechRecognition();
   
-  const note_textarea = document.getElementById('note-textarea');
-  const notes_list = document.getElementById('notes-list');
+  /*const note_textarea = document.getElementById('note-textarea');*/
+  const note_textarea = $('#note-textarea');
+  /*const notes_list = document.getElementById('notes-list');*/
   
-  const start_button = document.getElementById('start-record-btn');
-  const stop_button = document.getElementById('stop-record-btn');
-  const save_button = document.getElementById('save-record-btn');
+  const notes_list = $('#notes-list');
+  
+  /*const start_button = document.getElementById('start-record-btn');*/
+  /*const stop_button = document.getElementById('stop-record-btn');*/
+  /*const save_button = document.getElementById('save-record-btn');*/
+  
+  const start_button = $('#start-record-btn');
+  const stop_button = $('#stop-record-btn');
+  const save_button = $('#save-record-btn');
   
   let is_recording = false;
   let note_content = '';
@@ -71,8 +78,10 @@ $(function () {
     
     if (!mobile_repeat_bug) {
       note_content += transcript;
-      note_textarea.innerHTML = ' ' + note_content;
-      note_content = '';
+      note_textarea.val(note_content);
+      
+      /*note_textarea.innerHTML = ' ' + note_content;
+      note_content = '';*/
     
     }
     
@@ -90,8 +99,8 @@ $(function () {
     
   }; //end of onspeechend function
   
-  recognition.onerror = function (e) {
-    if (e.error == 'no-speech') {
+  recognition.onerror = function (event) {
+    if (event.error == 'no-speech') {
       swal('Terminated', 'No speech detected. Try again!', 'error');
       return;
     }
@@ -135,17 +144,22 @@ $(function () {
     
     clone.querySelector('.saved-notes-item').setAttributeNode(attr);
     clone.querySelector('.saved-notes-date').textContent = date;
-    clone.querySelector('.note-read').addEventListener('click', readOutLoudNote);
-    clone.querySelector('.note-delete').addEventListener('click', deleteNoteItem);
+    /*clone.querySelector('.note-read').addEventListener('click', readOutLoudNote);*/
+    clone.querySelector('.note-read').onclick = readOutLoudNote;
+    /*clone.querySelector('.note-edit').addEventListener('click', editNoteItem);*/
+    clone.querySelector('.note-edit').onclick = editNoteItem;
+    /*clone.querySelector('.note-delete').addEventListener('click', deleteNoteItem);*/
+    clone.querySelector('.note-delete').onclick = deleteNoteItem;
     clone.querySelector('.saved-notes-content').textContent = content;
     
-    notes_list.appendChild(clone);
+    /*notes_list.appendChild(clone);*/
+    notes_list.append(clone);
     
   }; //end of createNoteItem function
   
-  function deleteNoteItem (e) {
-    console.log('deleteNoteItem');
-    if (e.target.classList.contains('fa-trash-alt')) {
+  function deleteNoteItem (event) {
+    
+    if (event.target.classList.contains('fa-trash-alt')) {
       swal({
         title: 'Are you sure?',
         text: 'Once deleted, impossible to recover!',
@@ -154,10 +168,12 @@ $(function () {
         dangerMode: true
       }).then((willDelete) => {
         if (willDelete) {
-          const noteItem = e.target.parentElement.parentElement.parentElement.parentElement;
+          /*const noteItem = event.target.parentElement.parentElement.parentElement.parentElement;*/
+          const noteItem = event.target;
           const id = noteItem.dataset.id;
           
-          notes_list.removeChild(noteItem);
+          /*notes_list.removeChild(noteItem);*/
+          notes_list.remove(noteItem);
           removeFromLocalStorage(id);
           setToDefaultSettings();
           
@@ -182,6 +198,11 @@ $(function () {
       });
     }
   }; //end of displayNoteItems functions
+  
+  function editNoteItem (event) {
+    console.log('editNoteItem', event.target);
+    
+  }; //end of editNoteItem function
   
   /**
    * @description -
@@ -249,7 +270,7 @@ $(function () {
 ================================================*/
   window.addEventListener('DOMContentLoaded', getInitialNoteList);
   
-  start_button.addEventListener('click', function (event) {
+/*  start_button.addEventListener('click', function (event) {
     
     if (is_recording === false) {
       if (note_textarea.innerHTML.length > 0) {
@@ -265,9 +286,29 @@ $(function () {
       return;
     }
     
+  });*/
+  
+  start_button.on('click', function(event) {
+    
+    if (is_recording === false) {
+      if (note_textarea.val().length > 0) {
+        note_textarea.val(' ');
+        
+      }
+      recognition.start();
+      is_recording = true;
+      
+    } else if (is_recording === true) {
+      swal('Speech Recognition Error', 'Speech Recognition has already started! Stopping...', 'error');
+      recognition.stop();
+      is_recording = false;
+      return;
+      
+    }
+    
   });
   
-  stop_button.addEventListener('click', function (event) {
+/*  stop_button.addEventListener('click', function (event) {
     
     if (is_recording === false) {
       swal('Speech Recognition Information', 'Speech Recognition is not recording', 'info');
@@ -278,9 +319,24 @@ $(function () {
       swal('Speech Recognition Stopped', 'Speech Recognition has safely stopped', 'info');
     }
     
+  });*/
+  
+  stop_button.on('click', function (event) {
+    
+    if (is_recording === false) {
+      swal('Speech Recognition Information', 'Speech Recognition is not recording', 'info');
+      
+    } else {
+      recognition.stop();
+      is_recording = false;
+      swal('Speech Recognition Stopped', 'Speech Recognition has safely stopped', 'info');
+      
+    }
+    
   });
   
-  save_button.addEventListener('click', function (event) {
+  
+/*  save_button.addEventListener('click', function (event) {
     if (is_recording === false) {
       if (note_textarea.innerHTML.length <= 0) {
         swal('Invalid Note Item', 'Textarea cannot be empty!', 'error');
@@ -321,18 +377,70 @@ $(function () {
         swal('Speech Recognition', 'Speech Recognition safely saved your note.', 'info');
       }
     }
-  });
+  }); */
   
-  note_textarea.addEventListener('input', function (event) {
-    /*console.log(this.value);*/
+  save_button.on('click', function(event) {
+    if (is_recording === false) {
+      if (note_textarea.val().length <= 0) {
+        swal('Invalid Note Item', 'Textarea cannot be empty!', 'error');
+      
+      } else {
+        
+        const date_time = new Date();
+        let id = date_time.getTime().toString();
+        let date = date_time.toString().slice(0, -29);
+      
+        note_content = note_textarea.val();
+      
+        createNoteItem(id, date, note_content);
+        addToLocalStorage(id, date, note_content);
+        setToDefaultSettings();
+        swal('Success', 'Note Successfully Saved', 'success');
+      
+      }
+    
+    } else if (is_recording === true) {
+      if (note_textarea.val().length <= 0) {
+        swal('Invalid Note Item', 'Textarea cannot be empty!', 'error');
+      
+      } else  {
+        recognition.stop();
+        is_recording = false;
+      
+        note_content = note_textarea.val().trim();
+      
+        const date_time = new Date();
+        let id = date_time.getTime().toString();
+        let date = date_time.toString().slice(0, -29);
+      
+        createNoteItem(id, date, note_content);
+        addToLocalStorage(id, date, note_content);
+        setToDefaultSettings();
+      
+        swal('Speech Recognition', 'Speech Recognition safely saved your note.', 'info');
+      }
+    }
+  });
+  /*note_textarea.addEventListener('input', function (event) {
+    /!*console.log(this.value);*!/
     note_textarea += this.value;
     console.log(note_textarea);
     
-  });
+  });*/
   
-  notes_list.addEventListener('click', function (event) {
+  note_textarea.on('click', function (event) {
+    note_content = $(this).val();
+  })
+  
+/*  notes_list.addEventListener('click', function (event) {
     event.preventDefault();
     console.log(event.target, 'clicked');
+  });*/
+  
+  notes_list.on('click', function (event) {
+    event.preventDefault();
+    console.log(event.target, 'clicked');
+    
   });
   
   displaySavedNoteItems();
