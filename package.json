@@ -9,7 +9,7 @@
   "private": false,
   "scripts": {
     "watch:scss": "sass scss/main.scss css/main.css --watch --style expanded",
-    "devserver": "live-server --port=5505",
+    "devserver": "live-server --port=55005",
     "start": "npm-run-all --parallel devserver watch:scss",
     "compile:sass": "sass scss/main.scss css/main.comp.css",
     "concat:css": "concat -o css/main.concat.css css/normalize.css css/main.comp.css",
