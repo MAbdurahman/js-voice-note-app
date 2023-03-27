@@ -190,12 +190,17 @@ $(function () {
   function editNoteItem (event) {
     console.log('editNoteItem', event.target);
     if (event.target.classList.contains('fa-edit')) {
+      is_editing = true;
+      save_button.text('edit');
       const edit_item = event.target.parentElement.parentElement.parentElement.parentElement;
       console.log(edit_item);
       edit_id = edit_item.dataset.id;
       console.log(edit_id);
       edit_item_content = edit_item.children[1].children[0].innerHTML;
       console.log(edit_item_content);
+      note_textarea.text(edit_item_content).focus();
+      
+      
     }
     
   }; //end of editNoteItem function
@@ -268,9 +273,12 @@ $(function () {
    */
   function setToDefaultSettings () {
     setTimeout(() => {
-      note_textarea.innerHTML = '';
+      note_textarea.text('');
       note_content = '';
       is_recording = false;
+      is_editing = false;
+      edit_id = '';
+      save_button.text('save');
       
     }, 250);
     
@@ -370,6 +378,22 @@ $(function () {
       
         swal('Speech Recognition', 'Speech Recognition safely saved your note.', 'info');
       }
+    } else if (is_editing === true) {
+        if (note_textarea.val().length <= 0) {
+          swal('Invalid Note Item', 'Textarea cannot be empty!', 'error');
+          
+        } else {
+          recognition.stop();
+          is_recording = false;
+          console.log();
+          updateEditToLocalStorage(edit_id, edit_item_content);
+          setToDefaultSettings();
+  
+          swal('Successfully Edited','Your note item was successfully edited!', {
+            icon: 'success'
+          });
+          return;
+        }
     }
   });
   
