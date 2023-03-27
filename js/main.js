@@ -37,6 +37,12 @@ $(function () {
   let is_recording = false;
   let note_content = '';
   
+  let is_editing = false;
+  let edit_id = '';
+  let edit_item;
+  let edit_item_content;
+  
+  
   localSavedNotesList = getInitialNoteList();
   
   /*=============================================
@@ -183,6 +189,14 @@ $(function () {
   
   function editNoteItem (event) {
     console.log('editNoteItem', event.target);
+    if (event.target.classList.contains('fa-edit')) {
+      const edit_item = event.target.parentElement.parentElement.parentElement.parentElement;
+      console.log(edit_item);
+      edit_id = edit_item.dataset.id;
+      console.log(edit_id);
+      edit_item_content = edit_item.children[1].children[0].innerHTML;
+      console.log(edit_item_content);
+    }
     
   }; //end of editNoteItem function
   
@@ -262,28 +276,27 @@ $(function () {
     
   }; //end of setToDefaultSettings function
   
+  /**
+   * @description -
+   * @param id
+   * @param content
+   */
+  function updateEditToLocalStorage (id, content) {
+    let localNoteListArr = getLocalStorage();
+    localNoteListArr = localNoteListArr.map(function (noteItem) {
+      if (noteItem.id === id) {
+        noteItem.content = content;
+      }
+      return noteItem;
+      
+    });
+    localStorage.setItem('savedNoteList', JSON.stringify(localNoteListArr));
+    
+  }; //end of updateEditToLocalStorage function
   /*=============================================
         addEventListeners
 ================================================*/
   window.addEventListener('DOMContentLoaded', getInitialNoteList);
-  
-/*  start_button.addEventListener('click', function (event) {
-    
-    if (is_recording === false) {
-      if (note_textarea.innerHTML.length > 0) {
-        note_textarea.innerHTML = '';
-      }
-      recognition.start();
-      is_recording = true;
-      
-    } else if (is_recording === true) {
-      swal('Speech Recognition Error', 'Speech Recognition has already started! Stopping...', 'error');
-      recognition.stop();
-      is_recording = false;
-      return;
-    }
-    
-  });*/
   
   start_button.on('click', function(event) {
     
@@ -302,21 +315,7 @@ $(function () {
       return;
       
     }
-    
   });
-  
-/*  stop_button.addEventListener('click', function (event) {
-    
-    if (is_recording === false) {
-      swal('Speech Recognition Information', 'Speech Recognition is not recording', 'info');
-      
-    } else {
-      recognition.stop();
-      is_recording = false;
-      swal('Speech Recognition Stopped', 'Speech Recognition has safely stopped', 'info');
-    }
-    
-  });*/
   
   stop_button.on('click', function (event) {
     
@@ -329,52 +328,7 @@ $(function () {
       swal('Speech Recognition Stopped', 'Speech Recognition has safely stopped', 'info');
       
     }
-    
   });
-  
-  
-/*  save_button.addEventListener('click', function (event) {
-    if (is_recording === false) {
-      if (note_textarea.innerHTML.length <= 0) {
-        swal('Invalid Note Item', 'Textarea cannot be empty!', 'error');
-        
-      } else {
-        
-        const date_time = new Date();
-        let id = date_time.getTime().toString();
-        let date = date_time.toString().slice(0, -29);
-        
-        note_content = note_textarea.innerHTML.trim();
-        
-        createNoteItem(id, date, note_content);
-        addToLocalStorage(id, date, note_content);
-        setToDefaultSettings();
-        swal('Success', 'Note Successfully Saved', 'success');
-        
-      }
-      
-    } else if (is_recording === true) {
-      if (note_textarea.innerHTML <= 0) {
-        swal('Invalid Note Item', 'Textarea cannot be empty!', 'error');
-        
-      } else  {
-        recognition.stop();
-        is_recording = false;
-  
-        note_content = note_textarea.innerHTML.trim();
-  
-        const date_time = new Date();
-        let id = date_time.getTime().toString();
-        let date = date_time.toString().slice(0, -29);
-  
-        createNoteItem(id, date, note_content);
-        addToLocalStorage(id, date, note_content);
-        setToDefaultSettings();
-  
-        swal('Speech Recognition', 'Speech Recognition safely saved your note.', 'info');
-      }
-    }
-  }); */
   
   save_button.on('click', function(event) {
     if (is_recording === false) {
@@ -418,12 +372,6 @@ $(function () {
       }
     }
   });
-  /*note_textarea.addEventListener('input', function (event) {
-    /!*console.log(this.value);*!/
-    note_textarea += this.value;
-    console.log(note_textarea);
-    
-  });*/
   
   note_textarea.on('click', function (event) {
     note_content = $(this).val();
