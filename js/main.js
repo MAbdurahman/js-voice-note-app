@@ -53,28 +53,28 @@ $(function () {
   /**
    * If recognition.continuous = false, the recording will stop after a few seconds of
    * silence.  When it is true, the silence period can be longer (about 15 seconds).  Thus,
-   * allowing SpeechRecognition to continue recording, even when the speecher pauses.
+   * allowing SpeechRecognition to continue recording, even when the speaker pauses.
    */
   recognition.continuous = true;
   
   /**
    * This function is called every time the Speech API captures a line
    */
-  recognition.onresult = function (e) {
+  recognition.onresult = function (event) {
     
     /**
      * The event is a SpeechRecognitionEvent object.  It holds all the line captured. Therefore,
      * the current one will suffice.
      */
-    let current = e.resultIndex;
+    let current = event.resultIndex;
     
     // Get a transcript of what was said.
-    let transcript = e.results[current][0].transcript;
+    let transcript = event.results[current][0].transcript;
     
     // Add the current transcript to the contents of our Note.
     // There is a weird bug on mobile, where everything is repeated twice.
     // There is no official solution so far so we have to handle an edge case.
-    var mobile_repeat_bug = (current == 1 && transcript == e.results[0][0].transcript);
+    var mobile_repeat_bug = (current == 1 && transcript == event.results[0][0].transcript);
     
     if (!mobile_repeat_bug) {
       note_content += transcript;
