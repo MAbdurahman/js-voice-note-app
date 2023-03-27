@@ -28,16 +28,8 @@ $(function () {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = new SpeechRecognition();
   
-  /*const note_textarea = document.getElementById('note-textarea');*/
   const note_textarea = $('#note-textarea');
-  /*const notes_list = document.getElementById('notes-list');*/
-  
   const notes_list = $('#notes-list');
-  
-  /*const start_button = document.getElementById('start-record-btn');*/
-  /*const stop_button = document.getElementById('stop-record-btn');*/
-  /*const save_button = document.getElementById('save-record-btn');*/
-  
   const start_button = $('#start-record-btn');
   const stop_button = $('#stop-record-btn');
   const save_button = $('#save-record-btn');
@@ -80,9 +72,6 @@ $(function () {
       note_content += transcript;
       note_textarea.val(note_content);
       
-      /*note_textarea.innerHTML = ' ' + note_content;
-      note_content = '';*/
-    
     }
     
   }; //end of onresult function
@@ -144,15 +133,11 @@ $(function () {
     
     clone.querySelector('.saved-notes-item').setAttributeNode(attr);
     clone.querySelector('.saved-notes-date').textContent = date;
-    /*clone.querySelector('.note-read').addEventListener('click', readOutLoudNote);*/
-    clone.querySelector('.note-read').onclick = readOutLoudNote;
-    /*clone.querySelector('.note-edit').addEventListener('click', editNoteItem);*/
+    clone.querySelector('.note-read').onclick = readNoteItem;
     clone.querySelector('.note-edit').onclick = editNoteItem;
-    /*clone.querySelector('.note-delete').addEventListener('click', deleteNoteItem);*/
     clone.querySelector('.note-delete').onclick = deleteNoteItem;
     clone.querySelector('.saved-notes-content').textContent = content;
     
-    /*notes_list.appendChild(clone);*/
     notes_list.append(clone);
     
   }; //end of createNoteItem function
@@ -168,15 +153,12 @@ $(function () {
         dangerMode: true
       }).then((willDelete) => {
         if (willDelete) {
-          /*const noteItem = event.target.parentElement.parentElement.parentElement.parentElement;*/
-          const noteItem = event.target;
+          const noteItem = event.target.parentElement.parentElement.parentElement.parentElement;
           const id = noteItem.dataset.id;
           
-          /*notes_list.removeChild(noteItem);*/
-          notes_list.remove(noteItem);
+          noteItem.remove();
           removeFromLocalStorage(id);
           setToDefaultSettings();
-          
           swal('Successfully Delete', 'Your note item has been deleted!', { icon: 'success' });
           
         } else {
@@ -232,9 +214,24 @@ $(function () {
     
   }; //end of getLocalStorage function
   
-  function readOutLoudNote (message) {
-    console.log('readOutLoudNote');
+  function readNoteItem (event) {
     
+    if (event.target.classList.contains('fa-volume-up')) {
+      const noteItem = event.target.parentElement.parentElement.parentElement.parentElement;
+      const id = noteItem.dataset.id;
+      /*console.log(id);
+      console.log(noteItem.children.length);
+      console.log(noteItem.children[1].children[0].innerHTML)*/
+      const content = noteItem.children[1].children[0].innerHTML;
+      
+      const speech_utter = new SpeechSynthesisUtterance();
+      speech_utter.text = content;
+      speech_utter.volume = 1;
+      speech_utter.rate - 0.7;
+      speech_utter.pitch = 1;
+      
+      window.speechSynthesis.speak(speech_utter);
+    }
   }; //end of readOutLoudNote function
   
   /**
@@ -437,12 +434,13 @@ $(function () {
     console.log(event.target, 'clicked');
   });*/
   
-  notes_list.on('click', function (event) {
+  /*notes_list.on('click', function (event) {
     event.preventDefault();
     console.log(event.target, 'clicked');
     
-  });
+  });*/
   
   displaySavedNoteItems();
+  
 });
 

@@ -447,14 +447,13 @@ section.saved-notes-wrapper {
   overflow-y: auto;
   display: grid;
   grid-template-rows: 33.33% 66.66%;
-  row-gap: 2.25rem;
 }
 
 .saved-notes-item {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin-bottom: -1em;
+  /*margin-bottom: 1.75em;*/
   /*margin-bottom: 1em;*/
 }
 
