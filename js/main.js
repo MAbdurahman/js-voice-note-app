@@ -38,9 +38,10 @@ $(function () {
   let note_content = '';
   
   let is_editing = false;
-  let edit_id = '';
   let edit_item;
-  let edit_item_content;
+  let edit_id = '';
+  let edit_date;
+  let edit_content;
   
   
   localSavedNotesList = getInitialNoteList();
@@ -194,12 +195,17 @@ $(function () {
       save_button.text('edit');
       const edit_item = event.target.parentElement.parentElement.parentElement.parentElement;
       console.log(edit_item);
+      
       edit_id = edit_item.dataset.id;
       console.log(edit_id);
-      edit_item_content = edit_item.children[1].children[0].innerHTML;
-      console.log(edit_item_content);
-      note_textarea.text(edit_item_content).focus();
       
+      edit_date = edit_item.children[0].children[0].innerHTML;
+      console.log(edit_date);
+      
+      edit_content = edit_item.children[1].children[0].innerHTML;
+      console.log(edit_content);
+      
+      note_textarea.text(edit_content).focus();
       
     }
     
@@ -272,6 +278,38 @@ $(function () {
     
   }; //end of removeFromLocalStorage function
   
+  function saveNoteItem (event) {
+      note_content = note_textarea.val().trim();
+      
+      if (note_content && !is_recording && !is_editing) {
+        const date_time = new Date();
+        let id = date_time.getDate().toString();
+        let date = date_time.toString().slice(0, -29);
+        
+        createNoteItem(id, date, note_content);
+        addToLocalStorage(id, date, note_content);
+        setToDefaultSettings();
+        
+        swal('Success', 'Note Item Successfully Saved', 'success');
+        
+      } else if (note_content && is_editing) {
+/*        edit_content.val(note_content);*/
+        
+        edit_content = note_content;
+        updateEditToLocalStorage(edit_id, edit_date, edit_content);
+        displaySavedNoteItems();
+        setToDefaultSettings();
+        
+        swal('Successfully Edited', 'Your note item was successfully edited!', 'success');
+        return;
+        
+      } else {
+        swal('Invalid Entry', 'Textarea cannot be empty!', 'error');
+        return;
+      }
+      
+  }; //end of saveNoteItem function
+  
   /**
    * @description -
    */
@@ -281,7 +319,11 @@ $(function () {
       note_content = '';
       is_recording = false;
       is_editing = false;
+/*      edit_item.innerHTML = '';*/
+      edit_item;
+      console.log(edit_item);
       edit_id = '';
+      edit_date = '';
       save_button.text('save');
       
     }, 250);
@@ -293,10 +335,11 @@ $(function () {
    * @param id
    * @param content
    */
-  function updateEditToLocalStorage (id, content) {
+  function updateEditToLocalStorage (id, date, content) {
     let localNoteListArr = getLocalStorage();
     localNoteListArr = localNoteListArr.map(function (noteItem) {
       if (noteItem.id === id) {
+        noteItem.date = date;
         noteItem.content = content;
       }
       return noteItem;
@@ -342,7 +385,7 @@ $(function () {
     }
   });
   
-  save_button.on('click', function(event) {
+  /*save_button.on('click', function(event) {
     if (is_recording === false) {
       if (note_textarea.val().length <= 0) {
         swal('Invalid Note Item', 'Textarea cannot be empty!', 'error');
@@ -399,8 +442,9 @@ $(function () {
           return;
         }
     }
-  });
+  });*/
   
+  save_button.on('click', saveNoteItem);
   note_textarea.on('click', function (event) {
     note_content = $(this).val();
   })
