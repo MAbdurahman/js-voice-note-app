@@ -243,13 +243,17 @@ $(function () {
       console.log(noteItem.children[1].children[0].innerHTML)*/
       const content = noteItem.children[1].children[0].innerHTML;
       
-      const speech_utter = new SpeechSynthesisUtterance();
-      speech_utter.text = content;
-      speech_utter.volume = 1;
-      speech_utter.rate - 0.7;
-      speech_utter.pitch = 1;
+      swal('Please Wait...', 'SpeechSynthesisUtterance is starting.',{icon: 'info'});
+      setTimeout(() => {
+        const speech_utter = new SpeechSynthesisUtterance();
+        speech_utter.text = content;
+        speech_utter.volume = 1;
+        speech_utter.rate - 0.7;
+        speech_utter.pitch = 1;
+  
+        window.speechSynthesis.speak(speech_utter);
+      }, 3000);
       
-      window.speechSynthesis.speak(speech_utter);
     }
   }; //end of readOutLoudNote function
   
@@ -385,7 +389,7 @@ $(function () {
         } else {
           recognition.stop();
           is_recording = false;
-          console.log();
+          console.log(edit_item_content);
           updateEditToLocalStorage(edit_id, edit_item_content);
           setToDefaultSettings();
   
