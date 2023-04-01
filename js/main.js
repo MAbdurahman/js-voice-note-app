@@ -39,12 +39,80 @@ $(function () {
   
   let is_editing = false;
   let edit_item;
+  let edit_index;
   let edit_id = '';
   let edit_date;
   let edit_content;
+  let item;
   
-  
+  /*const para_text = 'You do not have any saved notes.';*/
   localSavedNotesList = getInitialNoteList();
+  
+  /*console.log(notes_list.children().hasClass('saved-notes-item'));
+  console.log(notes_list);
+  console.log($('ul#notes-list li').length);
+  console.log($('ul#notes-list li > p.no-saved-notes').length);*/
+  /*console.log(document.getElementById('notes-list').children.length)*/
+  /*console.log(($('ul#notes-list.saved-notes-items')))
+  
+  
+  console.log(checkForParagraphText(para_text));
+  if (document.getElementById('notes-list').children.length <= 0) {
+    console.log('inside if')
+    addNoSavedNotesParagraph();
+    
+  } else {
+    console.log('outside if');
+    document.getElementById('notes-list').remove(item);
+  
+  }*/
+  let text = 'You do not have any saved notes.';
+  
+  let has_paragraph = checkForParagraphText(text);
+  
+  console.log(has_paragraph);
+  
+  let named_class = 'saved-notes-item';
+  /*console.log($('li.saved-notes-item'));*/
+  
+  
+  let saved_notes_item = document.getElementsByClassName('saved-notes-item');
+  
+  console.log(saved_notes_item);
+  
+  if (saved_notes_item) {
+    removeNoSavedNotesParagraph();
+  
+  } else if (document.getElementsByClassName('no-saved-notes')) {
+    addNoSavedNotesParagraph();
+  }
+  
+  /*console.log(parent);*/
+  
+  /*console.log($('#notes-list').find('li#no-saved-notes'));*/
+  /*let element = ($('li#no-saved-notes'));*/
+  
+  /*let elements = ($('li'));
+  
+  console.log(elements);*/
+  
+  /*if ($('li.saved-notes-item').length === 0) {
+    addNoSavedNotesParagraph();
+    
+  } else {
+    removeNoSavedNotesParagraph();
+  }*/
+  
+  
+  
+  /*console.log(document.getElementsByClassName('saved-notes-item'));*/
+  /*if ($('li').length > 1) {
+    removeFromLocalStorage();
+  
+  } else {
+    
+    addNoSavedNotesParagraph();
+  }*/
   
   /*=============================================
         SpeechRecognition - recognition
@@ -125,6 +193,46 @@ $(function () {
     
   }; //end of addToLocalStorage function
   
+  function checkForParagraphText (required_text) {
+    let found = false;
+    $('li#no-saved-notes p').each((id, element) => {
+      if (element.innerHTML === required_text) {
+        found = true;
+      }
+    });
+    return found;
+    
+  }; //end of checkForParagraphText function
+  
+  function addNoSavedNotesParagraph() {
+    let item = document.createElement('li');
+    item.setAttribute('id', 'no-saved-notes');
+    
+    let paragraph = document.createElement('p');
+    paragraph.setAttribute('class', 'no-saved-notes');
+    
+    let text = 'You do not have any saved notes.';
+    let para_text = document.createTextNode(text);
+  
+    notes_list.append(item);
+    paragraph.appendChild(para_text);
+    item.appendChild(paragraph);
+    
+  }; //end of addNoSavedNotesParagraph function
+  
+  function removeNoSavedNotesParagraph() {
+    let item = document.getElementById('no-saved-notes');
+    let ul = document.getElementById('notes-list');
+  
+    
+    /*item.remove();*/
+    /*console.log(item);
+    console.log(ul);*/
+    /*let no_saved_notes = document.getElementById('no-saved-notes');
+    notes_list.remove(no_saved_notes);*/
+    
+  }; //end of removeNoSavedNotesParagraph function
+  
   /**
    * @description -
    * @param id
@@ -185,6 +293,7 @@ $(function () {
       localNoteListArr.forEach(function (noteItem) {
         createNoteItem(noteItem.id, noteItem.date, noteItem.content);
       });
+      /*localStorage.setItem('savedNoteItems', JSON.stringify(localNoteListArr));*/
     }
   }; //end of displayNoteItems functions
   
@@ -193,7 +302,7 @@ $(function () {
     if (event.target.classList.contains('fa-edit')) {
       is_editing = true;
       save_button.text('edit');
-      const edit_item = event.target.parentElement.parentElement.parentElement.parentElement;
+      edit_item = event.target.parentElement.parentElement.parentElement.parentElement;
       console.log(edit_item);
       
       edit_id = edit_item.dataset.id;
@@ -205,7 +314,8 @@ $(function () {
       edit_content = edit_item.children[1].children[0].innerHTML;
       console.log(edit_content);
       
-      note_textarea.text(edit_content).focus();
+      /*note_textarea.text(edit_content).focus();*/
+      note_textarea.val(edit_content).focus();
       
     }
     
@@ -283,11 +393,12 @@ $(function () {
       
       if (note_content && !is_recording && !is_editing) {
         const date_time = new Date();
-        let id = date_time.getDate().toString();
+        let id = date_time.getTime().toString();
         let date = date_time.toString().slice(0, -29);
         
         createNoteItem(id, date, note_content);
         addToLocalStorage(id, date, note_content);
+        note_textarea.val('');
         setToDefaultSettings();
         
         swal('Success', 'Note Item Successfully Saved', 'success');
@@ -296,12 +407,20 @@ $(function () {
 /*        edit_content.val(note_content);*/
         
         edit_content = note_content;
+        
+        /*notes_list.remove();*/
+        notes_list.text('');
         updateEditToLocalStorage(edit_id, edit_date, edit_content);
-        displaySavedNoteItems();
+        console.log(note_textarea.val() );
+        note_textarea.val('')
+        
+/*        displaySavedNoteItems();*/
+        /*notes_list.innerText = displaySavedNoteItems();
+        console.log(notes_list.innerText);*/
         setToDefaultSettings();
         
         swal('Successfully Edited', 'Your note item was successfully edited!', 'success');
-        return;
+        displaySavedNoteItems();
         
       } else {
         swal('Invalid Entry', 'Textarea cannot be empty!', 'error');
@@ -314,6 +433,7 @@ $(function () {
    * @description -
    */
   function setToDefaultSettings () {
+    /*note_textarea.val('');*/
     setTimeout(() => {
       note_textarea.text('');
       note_content = '';
@@ -321,7 +441,7 @@ $(function () {
       is_editing = false;
 /*      edit_item.innerHTML = '';*/
       edit_item;
-      console.log(edit_item);
+      /*console.log(edit_item);*/
       edit_id = '';
       edit_date = '';
       save_button.text('save');
@@ -347,15 +467,20 @@ $(function () {
     });
     localStorage.setItem('savedNoteList', JSON.stringify(localNoteListArr));
     
+    
   }; //end of updateEditToLocalStorage function
   /*=============================================
         addEventListeners
 ================================================*/
   window.addEventListener('DOMContentLoaded', getInitialNoteList);
   
+  note_textarea.on('click', function (event) {
+    note_content = $(this).val();
+  });
+  
   start_button.on('click', function(event) {
     
-    if (is_recording === false) {
+    if (is_recording === false && is_editing === false) {
       if (note_textarea.val().length > 0) {
         note_textarea.val(' ');
         
@@ -363,12 +488,18 @@ $(function () {
       recognition.start();
       is_recording = true;
       
-    } else if (is_recording === true) {
+    } else if (is_recording === true && is_editing === false) {
       swal('Speech Recognition Error', 'Speech Recognition has already started! Stopping...', 'error');
       recognition.stop();
       is_recording = false;
       return;
       
+    } else {
+      swal('Speech Recognition Error', 'Speech Recognition is editing! Stopping...', 'error');
+      recognition.stop();
+      note_textarea.val('');
+      setToDefaultSettings();
+      return;
     }
   });
   
@@ -381,7 +512,8 @@ $(function () {
       recognition.stop();
       is_recording = false;
       swal('Speech Recognition Stopped', 'Speech Recognition has safely stopped', 'info');
-      
+      setToDefaultSettings();
+      return;
     }
   });
   
@@ -445,9 +577,7 @@ $(function () {
   });*/
   
   save_button.on('click', saveNoteItem);
-  note_textarea.on('click', function (event) {
-    note_content = $(this).val();
-  })
+  
   
 /*  notes_list.addEventListener('click', function (event) {
     event.preventDefault();
@@ -460,7 +590,17 @@ $(function () {
     
   });*/
   
+  /*console.log(displaySavedNoteItems());*/
   displaySavedNoteItems();
+  
   
 });
 
+
+
+$(function () {
+  console.log('second document ready has loaded');
+  
+  console.log($('li').hasClass('saved-notes-item'));
+  
+});

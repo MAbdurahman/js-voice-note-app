@@ -434,7 +434,7 @@ section.saved-notes-wrapper {
   background-image: radial-gradient(circle, var(--clr-neutral-200) 28%, var(--clr-neutral-200) 100%);
 }
 
-.no-notes {
+.no-saved-notes {
   font-size: 1rem;
   color: #9c9c9c;
 }
@@ -445,8 +445,12 @@ section.saved-notes-wrapper {
 .saved-notes-items {
   max-height: 200px;
   overflow-y: auto;
-  display: grid;
-  grid-template-rows: 33.33% 66.66%;
+  /*  display: grid;
+    grid-template-rows: 33.33% 66.66%;*/
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  row-gap: 16px;
 }
 
 .saved-notes-item {
@@ -464,7 +468,7 @@ section.saved-notes-wrapper {
 }
 
 .saved-notes-date-buttons {
-  width: 20%;
+  width: 30%;
   display: flex;
   justify-content: space-evenly;
 }
