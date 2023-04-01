@@ -43,77 +43,8 @@ $(function () {
   let edit_id = '';
   let edit_date;
   let edit_content;
-  let item;
   
-  /*const para_text = 'You do not have any saved notes.';*/
   localSavedNotesList = getInitialNoteList();
-
-  
-  /*console.log(notes_list.children().hasClass('saved-notes-item'));
-  console.log(notes_list);
-  console.log($('ul#notes-list li').length);
-  console.log($('ul#notes-list li > p.no-saved-notes').length);*/
-  /*console.log(document.getElementById('notes-list').children.length)*/
-  /*console.log(($('ul#notes-list.saved-notes-items')))
-  
-  
-  console.log(checkForParagraphText(para_text));
-  if (document.getElementById('notes-list').children.length <= 0) {
-    console.log('inside if')
-    addNoSavedNotesParagraph();
-    
-  } else {
-    console.log('outside if');
-    document.getElementById('notes-list').remove(item);
-  
-  }*/
-  /*let text = 'You do not have any saved notes.';
-  
-  let has_paragraph = checkForParagraphText(text);
-  
-  console.log(has_paragraph);
-  
-  let named_class = 'saved-notes-item';
-  /!*console.log($('li.saved-notes-item'));*!/
-  
-  
-  let saved_notes_item = document.getElementsByClassName('saved-notes-item');
-  
-  console.log(saved_notes_item);
-  
-  if (saved_notes_item) {
-    removeNoSavedNotesParagraph();
-  
-  } else if (document.getElementsByClassName('no-saved-notes')) {
-    addNoSavedNotesParagraph();
-  }*/
-  
-  /*console.log(parent);*/
-  
-  /*console.log($('#notes-list').find('li#no-saved-notes'));*/
-  /*let element = ($('li#no-saved-notes'));*/
-  
-  /*let elements = ($('li'));
-  
-  console.log(elements);*/
-  
-  /*if ($('li.saved-notes-item').length === 0) {
-    addNoSavedNotesParagraph();
-    
-  } else {
-    removeNoSavedNotesParagraph();
-  }*/
-  
-  
-  
-  /*console.log(document.getElementsByClassName('saved-notes-item'));*/
-  /*if ($('li').length > 1) {
-    removeFromLocalStorage();
-  
-  } else {
-    
-    addNoSavedNotesParagraph();
-  }*/
   
   /*=============================================
         SpeechRecognition - recognition
@@ -149,7 +80,6 @@ $(function () {
       note_textarea.val(note_content);
       
     }
-    
   }; //end of onresult function
   
   recognition.onstart = function () {
@@ -288,28 +218,22 @@ $(function () {
       localNoteListArr.forEach(function (noteItem) {
         createNoteItem(noteItem.id, noteItem.date, noteItem.content);
       });
-      /*localStorage.setItem('savedNoteItems', JSON.stringify(localNoteListArr));*/
+      localStorage.setItem('savedNoteList', JSON.stringify(localNoteListArr));
     }
   }; //end of displayNoteItems functions
   
   function editNoteItem (event) {
-    console.log('editNoteItem', event.target);
+    
     if (event.target.classList.contains('fa-edit')) {
+      
       is_editing = true;
       save_button.text('edit');
+      
       edit_item = event.target.parentElement.parentElement.parentElement.parentElement;
-      console.log(edit_item);
-      
       edit_id = edit_item.dataset.id;
-      console.log(edit_id);
-      
       edit_date = edit_item.children[0].children[0].innerHTML;
-      console.log(edit_date);
-      
       edit_content = edit_item.children[1].children[0].innerHTML;
-      console.log(edit_content);
       
-      /*note_textarea.text(edit_content).focus();*/
       note_textarea.val(edit_content).focus();
       
     }
@@ -348,7 +272,6 @@ $(function () {
    * @description -
    */
   function handleNoNotesParagraphs () {
-    console.log('handleNoNotesParagraphs');
     
     if ($('li').hasClass('saved-notes-item')) {
       removeNoSavedNotesParagraph();
@@ -364,9 +287,7 @@ $(function () {
     if (event.target.classList.contains('fa-volume-up')) {
       const noteItem = event.target.parentElement.parentElement.parentElement.parentElement;
       const id = noteItem.dataset.id;
-      /*console.log(id);
-      console.log(noteItem.children.length);
-      console.log(noteItem.children[1].children[0].innerHTML)*/
+      
       const content = noteItem.children[1].children[0].innerHTML;
       
       swal('Please Wait...', 'SpeechSynthesisUtterance is starting.',{icon: 'info'});
@@ -408,26 +329,22 @@ $(function () {
         
         createNoteItem(id, date, note_content);
         addToLocalStorage(id, date, note_content);
-        note_textarea.val('');
+        /*note_textarea.val('');*/
         setToDefaultSettings();
         handleNoNotesParagraphs();
         
         swal('Success', 'Note Item Successfully Saved', 'success');
         
       } else if (note_content && is_editing) {
-/*        edit_content.val(note_content);*/
         
         edit_content = note_content;
         
-        /*notes_list.remove();*/
         notes_list.text('');
         updateEditToLocalStorage(edit_id, edit_date, edit_content);
-        console.log(note_textarea.val() );
-        note_textarea.val('')
         
-/*        displaySavedNoteItems();*/
-        /*notes_list.innerText = displaySavedNoteItems();
-        console.log(notes_list.innerText);*/
+/*        note_textarea.val('')*/
+        
+
         setToDefaultSettings();
         
         swal('Successfully Edited', 'Your note item was successfully edited!', 'success');
@@ -445,15 +362,13 @@ $(function () {
    * @description -
    */
   function setToDefaultSettings () {
-    /*note_textarea.val('');*/
+    
     setTimeout(() => {
-      note_textarea.text('');
+      note_textarea.val('');
       note_content = '';
       is_recording = false;
       is_editing = false;
-/*      edit_item.innerHTML = '';*/
       edit_item;
-      /*console.log(edit_item);*/
       edit_id = '';
       edit_date = '';
       save_button.text('save');
@@ -479,8 +394,8 @@ $(function () {
     });
     localStorage.setItem('savedNoteList', JSON.stringify(localNoteListArr));
     
-    
   }; //end of updateEditToLocalStorage function
+  
   /*=============================================
         addEventListeners
 ================================================*/
@@ -524,98 +439,14 @@ $(function () {
       recognition.stop();
       is_recording = false;
       swal('Speech Recognition Stopped', 'Speech Recognition has safely stopped', 'info');
-      setToDefaultSettings();
       return;
     }
   });
   
-  /*save_button.on('click', function(event) {
-    if (is_recording === false) {
-      if (note_textarea.val().length <= 0) {
-        swal('Invalid Note Item', 'Textarea cannot be empty!', 'error');
-      
-      } else {
-        
-        const date_time = new Date();
-        let id = date_time.getTime().toString();
-        let date = date_time.toString().slice(0, -29);
-      
-        note_content = note_textarea.val();
-      
-        createNoteItem(id, date, note_content);
-        addToLocalStorage(id, date, note_content);
-        setToDefaultSettings();
-        swal('Success', 'Note Successfully Saved', 'success');
-      
-      }
-    
-    } else if (is_recording === true) {
-      if (note_textarea.val().length <= 0) {
-        swal('Invalid Note Item', 'Textarea cannot be empty!', 'error');
-      
-      } else  {
-        recognition.stop();
-        is_recording = false;
-      
-        note_content = note_textarea.val().trim();
-      
-        const date_time = new Date();
-        let id = date_time.getTime().toString();
-        let date = date_time.toString().slice(0, -29);
-      
-        createNoteItem(id, date, note_content);
-        addToLocalStorage(id, date, note_content);
-        setToDefaultSettings();
-      
-        swal('Speech Recognition', 'Speech Recognition safely saved your note.', 'info');
-      }
-    } else if (is_editing === true) {
-        if (note_textarea.val().length <= 0) {
-          swal('Invalid Note Item', 'Textarea cannot be empty!', 'error');
-          
-        } else {
-          recognition.stop();
-          is_recording = false;
-          console.log(edit_item_content);
-          updateEditToLocalStorage(edit_id, edit_item_content);
-          setToDefaultSettings();
-  
-          swal('Successfully Edited','Your note item was successfully edited!', {
-            icon: 'success'
-          });
-          return;
-        }
-    }
-  });*/
-  
   save_button.on('click', saveNoteItem);
   
-  
-/*  notes_list.addEventListener('click', function (event) {
-    event.preventDefault();
-    console.log(event.target, 'clicked');
-  });*/
-  
-  /*notes_list.on('click', function (event) {
-    event.preventDefault();
-    console.log(event.target, 'clicked');
-    
-  });*/
-  
-  /*console.log(displaySavedNoteItems());*/
   displaySavedNoteItems();
-  console.log($('li').hasClass('saved-notes-item'));
-/*  handleNoNotesParagraphs();*/
-  
   handleNoNotesParagraphs();
   
 });
 
-
-
-$(function () {
-  console.log('second document ready has loaded');
-  
-  // console.log($('li').hasClass('saved-notes-item'));
-  
-});
