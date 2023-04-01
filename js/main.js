@@ -47,6 +47,7 @@ $(function () {
   
   /*const para_text = 'You do not have any saved notes.';*/
   localSavedNotesList = getInitialNoteList();
+
   
   /*console.log(notes_list.children().hasClass('saved-notes-item'));
   console.log(notes_list);
@@ -66,14 +67,14 @@ $(function () {
     document.getElementById('notes-list').remove(item);
   
   }*/
-  let text = 'You do not have any saved notes.';
+  /*let text = 'You do not have any saved notes.';
   
   let has_paragraph = checkForParagraphText(text);
   
   console.log(has_paragraph);
   
   let named_class = 'saved-notes-item';
-  /*console.log($('li.saved-notes-item'));*/
+  /!*console.log($('li.saved-notes-item'));*!/
   
   
   let saved_notes_item = document.getElementsByClassName('saved-notes-item');
@@ -85,7 +86,7 @@ $(function () {
   
   } else if (document.getElementsByClassName('no-saved-notes')) {
     addNoSavedNotesParagraph();
-  }
+  }*/
   
   /*console.log(parent);*/
   
@@ -221,15 +222,8 @@ $(function () {
   }; //end of addNoSavedNotesParagraph function
   
   function removeNoSavedNotesParagraph() {
-    let item = document.getElementById('no-saved-notes');
-    let ul = document.getElementById('notes-list');
-  
-    
-    /*item.remove();*/
-    /*console.log(item);
-    console.log(ul);*/
-    /*let no_saved_notes = document.getElementById('no-saved-notes');
-    notes_list.remove(no_saved_notes);*/
+    let item_to_remove = $('#no-saved-notes');
+    item_to_remove.remove();
     
   }; //end of removeNoSavedNotesParagraph function
   
@@ -274,6 +268,7 @@ $(function () {
           noteItem.remove();
           removeFromLocalStorage(id);
           setToDefaultSettings();
+          handleNoNotesParagraphs();
           swal('Successfully Delete', 'Your note item has been deleted!', { icon: 'success' });
           
         } else {
@@ -349,6 +344,21 @@ $(function () {
     
   }; //end of getLocalStorage function
   
+  /**
+   * @description -
+   */
+  function handleNoNotesParagraphs () {
+    console.log('handleNoNotesParagraphs');
+    
+    if ($('li').hasClass('saved-notes-item')) {
+      removeNoSavedNotesParagraph();
+      
+    } else  {
+      addNoSavedNotesParagraph();
+      
+    }
+  }; //end of handleNoNotesParagraph function
+  
   function readNoteItem (event) {
     
     if (event.target.classList.contains('fa-volume-up')) {
@@ -400,6 +410,7 @@ $(function () {
         addToLocalStorage(id, date, note_content);
         note_textarea.val('');
         setToDefaultSettings();
+        handleNoNotesParagraphs();
         
         swal('Success', 'Note Item Successfully Saved', 'success');
         
@@ -421,6 +432,7 @@ $(function () {
         
         swal('Successfully Edited', 'Your note item was successfully edited!', 'success');
         displaySavedNoteItems();
+        handleNoNotesParagraphs();
         
       } else {
         swal('Invalid Entry', 'Textarea cannot be empty!', 'error');
@@ -592,7 +604,10 @@ $(function () {
   
   /*console.log(displaySavedNoteItems());*/
   displaySavedNoteItems();
+  console.log($('li').hasClass('saved-notes-item'));
+/*  handleNoNotesParagraphs();*/
   
+  handleNoNotesParagraphs();
   
 });
 
@@ -601,6 +616,6 @@ $(function () {
 $(function () {
   console.log('second document ready has loaded');
   
-  console.log($('li').hasClass('saved-notes-item'));
+  // console.log($('li').hasClass('saved-notes-item'));
   
 });
