@@ -248,6 +248,11 @@ div.wrapper {
   font-size: 1.9rem;
 }
 
+@media only screen and (max-width: 540px) {
+  .heading-title {
+    margin-bottom: 1.5em;
+  }
+}
 /*=============================================
           new-notes-textarea
 ================================================*/
@@ -470,6 +475,7 @@ section.saved-notes-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  padding-right: 0.5em;
 }
 
 .saved-notes-date-wrapper {
@@ -482,6 +488,7 @@ section.saved-notes-wrapper {
   width: 30%;
   display: flex;
   justify-content: space-evenly;
+  justify-content: flex-end;
 }
 
 .saved-notes-date {
@@ -491,8 +498,18 @@ section.saved-notes-wrapper {
 
 .saved-notes-date-button {
   font-size: 1rem;
+  margin-left: 2.6em;
 }
 
+@media only screen and (max-width: 540px) {
+  .saved-notes-date-buttons {
+    width: 25%;
+    justify-content: space-between;
+  }
+  .saved-notes-date-button {
+    margin-left: 0;
+  }
+}
 .note-read {
   color: #4682b4;
   transition: color 0.333s;
