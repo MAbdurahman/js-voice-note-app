@@ -413,7 +413,7 @@ $(function () {
     } else {
       swal('Speech Recognition Error', 'Speech Recognition is editing! Stopping...', 'error');
       recognition.stop();
-      note_textarea.val('');
+      /*note_textarea.val('');*/
       setToDefaultSettings();
       return;
     }
@@ -426,8 +426,8 @@ $(function () {
       
     } else {
       recognition.stop();
-      /*is_recording = false;*/
-      setToDefaultSettings();
+      is_recording = false;
+      /*setToDefaultSettings();*/
       swal('Speech Recognition Stopped', 'Speech Recognition has safely stopped', 'info');
       return;
     }
