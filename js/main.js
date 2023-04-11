@@ -124,17 +124,6 @@ $(function () {
     
   }; //end of addToLocalStorage function
   
-  function checkForParagraphText (required_text) {
-    let found = false;
-    $('li#no-saved-notes p').each((id, element) => {
-      if (element.innerHTML === required_text) {
-        found = true;
-      }
-    });
-    return found;
-    
-  }; //end of checkForParagraphText function
-  
   function addNoSavedNotesParagraph() {
     let item = document.createElement('li');
     item.setAttribute('id', 'no-saved-notes');
@@ -295,7 +284,7 @@ $(function () {
         const speech_utter = new SpeechSynthesisUtterance();
         speech_utter.text = content;
         speech_utter.volume = 1;
-        speech_utter.rate - 0.7;
+        speech_utter.rate = 0.7;
         speech_utter.pitch = 1;
   
         window.speechSynthesis.speak(speech_utter);
@@ -437,7 +426,8 @@ $(function () {
       
     } else {
       recognition.stop();
-      is_recording = false;
+      /*is_recording = false;*/
+      setToDefaultSettings();
       swal('Speech Recognition Stopped', 'Speech Recognition has safely stopped', 'info');
       return;
     }
