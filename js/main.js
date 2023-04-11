@@ -124,6 +124,9 @@ $(function () {
     
   }; //end of addToLocalStorage function
   
+  /**
+   * @description -
+   */
   function addNoSavedNotesParagraph() {
     let item = document.createElement('li');
     item.setAttribute('id', 'no-saved-notes');
@@ -140,6 +143,9 @@ $(function () {
     
   }; //end of addNoSavedNotesParagraph function
   
+  /**
+   * @description -
+   */
   function removeNoSavedNotesParagraph() {
     let item_to_remove = $('#no-saved-notes');
     item_to_remove.remove();
@@ -170,6 +176,10 @@ $(function () {
     
   }; //end of createNoteItem function
   
+  /**
+   * @description -
+   * @param event
+   */
   function deleteNoteItem (event) {
     
     if (event.target.classList.contains('fa-trash-alt')) {
@@ -226,7 +236,6 @@ $(function () {
       note_textarea.val(edit_content).focus();
       
     }
-    
   }; //end of editNoteItem function
   
   /**
@@ -271,6 +280,10 @@ $(function () {
     }
   }; //end of handleNoNotesParagraph function
   
+  /**
+   * @description -
+   * @param event
+   */
   function readNoteItem (event) {
     
     if (event.target.classList.contains('fa-volume-up')) {
@@ -278,17 +291,29 @@ $(function () {
       const id = noteItem.dataset.id;
       
       const content = noteItem.children[1].children[0].innerHTML;
-      
-      swal('Please Wait...', 'SpeechSynthesisUtterance is starting.',{icon: 'info'});
-      setTimeout(() => {
-        const speech_utter = new SpeechSynthesisUtterance();
-        speech_utter.text = content;
-        speech_utter.volume = 1;
-        speech_utter.rate = 0.7;
-        speech_utter.pitch = 1;
+      if ('speechSynthesis' in window) {
+        swal('Please Wait...', 'SpeechSynthesisUtterance is starting.',{icon: 'info'});
   
-        window.speechSynthesis.speak(speech_utter);
-      }, 3000);
+        const synthesis = window.speechSynthesis;
+        const voices = synthesis.getVoices();
+        
+        setTimeout(() => {
+          const speech_utter = new SpeechSynthesisUtterance();
+          speech_utter.lang = 'en';
+          speech_utter.voice = voices[0];
+          speech_utter.text = content;
+          speech_utter.volume = 1;
+          speech_utter.rate = 0.7;
+          speech_utter.pitch = 1;
+    
+          window.speechSynthesis.speak(speech_utter);
+        }, 3000);
+        
+      } else {
+        swal('Not Supported In Your Browser!', 'Text-to-speech is not supported.', {icon: 'info'});
+        return;
+        
+      }
       
     }
   }; //end of readOutLoudNote function
@@ -308,6 +333,10 @@ $(function () {
     
   }; //end of removeFromLocalStorage function
   
+  /**
+   * @description -
+   * @param event
+   */
   function saveNoteItem (event) {
       note_content = note_textarea.val().trim();
       
@@ -330,10 +359,6 @@ $(function () {
         
         notes_list.text('');
         updateEditToLocalStorage(edit_id, edit_date, edit_content);
-        
-/*        note_textarea.val('')*/
-        
-
         setToDefaultSettings();
         
         swal('Successfully Edited', 'Your note item was successfully edited!', 'success');
@@ -439,4 +464,3 @@ $(function () {
   handleNoNotesParagraphs();
   
 });
-
