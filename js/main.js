@@ -306,18 +306,20 @@ $(function () {
         swal('Please Wait...', 'SpeechSynthesisUtterance is starting.',{icon: 'info'});
   
         const synthesis = window.speechSynthesis;
-        const voices = synthesis.getVoices();
         
         setTimeout(() => {
           const speech_utter = new SpeechSynthesisUtterance();
+          const voices = synthesis.getVoices();
+          
           speech_utter.lang = 'en';
           speech_utter.voice = voices[0];
           speech_utter.text = content;
           speech_utter.volume = 1;
           speech_utter.rate = 0.7;
           speech_utter.pitch = 1;
-    
-          window.speechSynthesis.speak(speech_utter);
+          
+          synthesis.speak(speech_utter);
+          
         }, 3000);
         
       } else {
