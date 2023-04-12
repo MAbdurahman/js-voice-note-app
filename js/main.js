@@ -360,7 +360,6 @@ $(function () {
         
         createNoteItem(id, date, note_content);
         addToLocalStorage(id, date, note_content);
-        /*note_textarea.val('');*/
         setToDefaultSettings();
         handleNoNotesParagraphs();
         
@@ -451,7 +450,7 @@ $(function () {
     } else {
       swal('Speech Recognition Error', 'Speech Recognition is editing! Stopping...', 'error');
       recognition.stop();
-      /*note_textarea.val('');*/
+      
       setToDefaultSettings();
       return;
     }
@@ -465,7 +464,7 @@ $(function () {
     } else {
       recognition.stop();
       is_recording = false;
-      /*setToDefaultSettings();*/
+      
       swal('Speech Recognition Stopped', 'Speech Recognition has safely stopped', 'info');
       return;
     }
