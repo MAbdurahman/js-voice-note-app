@@ -547,8 +547,7 @@ ion-icon {
   right: 0;
   bottom: 0;
   background-image: radial-gradient(circle, var(--clr-neutral-200) 28%, var(--clr-neutral-200) 100%);
-  background-image: radial-gradient(circle, var(--clr-neutral-600) 28%, var(--clr-neutral-600) 100%);
-  background-image: radial-gradient(circle, steelblue 28%, steelblue 100%);
+  background-image: radial-gradient(circle, var(--clr-neutral-400) 28%, var(--clr-neutral-400) 100%);
   display: -webkit-box;
   display: flex;
   -webkit-box-align: center;
