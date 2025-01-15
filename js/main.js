@@ -355,7 +355,8 @@ $(function () {
       
       if (note_content && !is_recording && !is_editing) {
         const date_time = new Date();
-        let id = date_time.getTime().toString();
+        // let id = date_time.getTime().toString();
+        let id = self.crypto.randomUUID();
         let date = date_time.toString().slice(0, -29);
         
         createNoteItem(id, date, note_content);
