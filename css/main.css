@@ -261,6 +261,8 @@ section.new-notes-wrapper {
   position: relative;
   margin-bottom: 0.5em;
   padding: 16px;
+  padding-left: 8px;
+  padding-right: 4px;
   background-color: var(--clr-neutral-100);
   border: 1px solid var(--clr-primary-800);
   border-radius: var(--br-border-radius);

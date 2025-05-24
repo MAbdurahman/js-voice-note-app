@@ -264,6 +264,8 @@ section.new-notes-wrapper {
   position: relative;
   margin-bottom: .5em;
   padding: 16px;
+  padding-left: 8px;
+  padding-right: 4px;
   background-color: var(--clr-neutral-100);
   border: 1px solid var(--clr-primary-800);
   border-radius: var(--br-border-radius);
@@ -278,6 +280,7 @@ section.new-notes-wrapper {
   line-height: 1;
   background-color: var(--clr-neutral-100);
   background-image: radial-gradient(circle, var(--clr-neutral-200) 28%, var(--clr-neutral-200) 100%);
+
 }
 
 .new-notes-textarea {
